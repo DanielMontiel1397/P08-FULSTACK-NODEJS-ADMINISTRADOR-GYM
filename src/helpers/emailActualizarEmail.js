@@ -27,7 +27,7 @@ const emailVerificarNuevoEmail = async (datos) => {
                     <div style="margin: 25px 0;">
                         <a href="${
                             tipoUsuario === 'administrador'
-                                ? `${process.env.FRONTEND_URL}/api/superAdministrador/verificar-nuevo-email/${token}`
+                                ? `${process.env.FRONTEND_URL}/confirmar-cuenta/verificar-email/${token}`
                                 : `${process.env.FRONTEND_URL}/api/auth/sucursal/validar-nuevo-email/${token}`
                         }"
                         style="background: #2980b9; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px;">

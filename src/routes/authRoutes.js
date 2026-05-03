@@ -2,30 +2,68 @@ import express from 'express';
 import {body} from 'express-validator'
 import { loginSuperAdmin, loginSucursal, olvidarPasswordAdministrador, olvidarPasswordSucursal, comprobarTokenSucursal, nuevoPasswordSucursal, comprobarTokenAdministrador, nuevoPasswordAdministrador, confirmarSucursal, crearPasswordSucursal, nuevoEmailSucursal } from '../controllers/authController.js';
 import { handleInputErrors } from '../middleware/validarBody.js';
+import { validarEmail, validarPasswordCrearRecuperar, validarPasswordLogin } from '../helpers/validaciones.js';
 
 const router = express.Router();
+
+//SWAGGER
+/**
+ * @openapi
+ * /api/auth/superadmin/login:
+ *   post:
+ *     tags:
+ *       - Auth
+ *     summary: Login del superadministrador
+ *     description: Autenticación del superadministrador y generación de JWT
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: admin@gym.com
+ *               password:
+ *                 type: string
+ *                 example: 123456
+ *     responses:
+ *       200:
+ *         description: Login exitoso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                   description: JWT de autenticación
+ *       401:
+ *         description: Credenciales inválidas
+ *       422:
+ *         description: Error de validación
+ */
+
+
 
 ///////Rutas para hacer Login///////
 
     //Administrador
 router.post('/superadmin/login', 
-    body('email')
-        .notEmpty().withMessage('El campo email es obligatorio'),
-    body('email')
-        .isEmail().withMessage('No es un Email válido'),
-    body('password')
-        .notEmpty().withMessage('La contraseña es obligatoria'),
+    validarEmail,
+    validarPasswordLogin,
     handleInputErrors,
     loginSuperAdmin);
 
     //Sucursal
 router.post('/sucursal/login', 
-    body('email')
-        .notEmpty().withMessage('El campo email es obligatorio'),
-    body('email')
-        .isEmail().withMessage('No es un Email válido'),
-    body('password')
-        .notEmpty().withMessage('La contraseña es obligatoria'),
+    validarEmail,
+    validarPasswordLogin,
     handleInputErrors,
     loginSucursal);
 
@@ -34,19 +72,13 @@ router.post('/sucursal/login',
 
     //Administrador
 router.post('/superadmin/olvidar-password',  
-    body('email')
-        .notEmpty().withMessage('El campo email es obligatorio'),
-    body('email')
-        .isEmail().withMessage('No es un Email válido'),
+    validarEmail,
     handleInputErrors,
     olvidarPasswordAdministrador);
 
     //Sucursal
 router.post('/sucursal/olvidar-password', 
-    body('email')
-        .notEmpty().withMessage('El campo email es obligatorio'),
-    body('email')
-        .isEmail().withMessage('No es un Email válido'),
+    validarEmail,
     handleInputErrors,
     olvidarPasswordSucursal);
 
@@ -62,17 +94,13 @@ router.get('/sucursal/verificar-token/:token',  comprobarTokenSucursal);
 
     //Administrador
 router.post('/superadmin/resetear-password/:token', 
-    body('password')
-        .notEmpty().withMessage('La Contraseña no puede ir vacia')
-        .isLength({min: 6}).withMessage('La Contraseña debe tener al menos 6 caracteres'),
+    validarPasswordCrearRecuperar,
     handleInputErrors,
     nuevoPasswordAdministrador);
     
     //Sucursal
 router.post('/sucursal/resetear-password/:token', 
-    body('password')
-        .notEmpty().withMessage('La Contraseña no puede ir vacia')
-        .isLength({min: 6}).withMessage('La Contraseña debe tener al menos 6 caracteres'),
+    validarPasswordCrearRecuperar,
     handleInputErrors,
     nuevoPasswordSucursal);
 
@@ -82,9 +110,7 @@ router.get('/sucursal/confirmar-cuenta/:token', confirmarSucursal);
 
 ////RUTA PARA CREAR CONTRASEÑA DE SUCURSAL////
 router.post('/sucursal/crear-password/:token', 
-    body('password')
-        .notEmpty().withMessage('La Contraseña no puede ir vacia')
-        .isLength({min: 6}).withMessage('La Contraseña debe tener al menos 6 caracteres'),
+    validarPasswordCrearRecuperar,
     handleInputErrors,
     crearPasswordSucursal)
 

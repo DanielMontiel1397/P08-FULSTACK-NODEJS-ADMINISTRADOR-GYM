@@ -44,7 +44,7 @@ const SuperAdmin = db.define('superAdmins', {
         scopes: {
             eliminarInfo: {
                 attributes: {
-                    exclude: ['password', 'token', 'is_confirmed']
+                    exclude: ['password', 'token']
                 }
             }
         }

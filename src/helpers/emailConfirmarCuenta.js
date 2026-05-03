@@ -24,8 +24,8 @@ const emailConfirmarCuenta = async (datos)=> {
                 <div style="margin: 25px 0;">
                     <a href="${
                         tipoUsuario === 'administrador'
-                            ? `${process.env.FRONTEND_URL}/api/auth/superadmin/confirmar-cuenta/${token}`
-                            : `${process.env.FRONTEND_URL}/api/auth/sucursal/confirmar-cuenta/${token}`
+                            ? `${process.env.FRONTEND_URL}/confirmar-cuenta/verificar-email/${token}`
+                            : `${process.env.FRONTEND_URL}/confirmar-cuenta/verificar-email/${token}`
                     }"
                     style="background: #27ae60; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px;">
                         Confirmar mi cuenta

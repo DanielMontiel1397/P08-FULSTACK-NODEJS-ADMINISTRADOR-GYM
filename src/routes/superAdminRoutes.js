@@ -1,12 +1,18 @@
 import express from 'express';
 
-import { activarDesactivarSucursal, confirmarCambioEmailAdministrador, actualizarSucursalPorId, crearSucursal, dashboard, editarPerfilAdministrador, obtenerClientesPorSucursal, obtenerSucursales, obtenerSucursalPorId, obtenerTodosClientes, perfilAdministrador } from '../controllers/superAdminController.js';
+import { activarDesactivarSucursal, confirmarCambioEmailAdministrador, actualizarSucursalPorId, crearSucursal, dashboard, editarPerfilAdministrador, obtenerClientesPorSucursal, obtenerSucursales, obtenerSucursalPorId, obtenerTodosClientes, perfilAdministrador, verificarSuperAdmin } from '../controllers/superAdminController.js';
 
 import { protegerRutaAdministrador } from '../middleware/protegerRutaAdmin.js';
 import { handleInputErrors } from '../middleware/validarBody.js';
 import { validarAddress, validarEmail, validarIdParam, validarName, validarPaginacion, validarPhone } from '../helpers/validaciones.js';
 
 const router = express.Router();
+
+//RUTA VERIFICAR AUTENTICACION
+router.get('/verificar',
+    protegerRutaAdministrador,
+    verificarSuperAdmin
+)
 
 ///RUTA DASHBOARD PRINCIPAL///
 router.get('/inicio', 

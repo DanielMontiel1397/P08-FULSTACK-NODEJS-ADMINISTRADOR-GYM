@@ -5,10 +5,14 @@ export const handleInputErrors = (req, res, next) => {
     const errores = validationResult(req);
 
     if(!errores.isEmpty()){
-        const mensajes = errores.array().map(error => error.msg);
+
+        const erroresFormateados = errores.array().map(error => ({
+            path: error.path,
+            msg: error.msg
+        }))
 
         return res.status(400).json({
-            errores: mensajes
+            errors: erroresFormateados
         })
     }
 

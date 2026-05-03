@@ -10,6 +10,11 @@ import superAdminRoutes from './routes/superAdminRoutes.js'
 import sucursalesRoutes from './routes/sucursalRoutes.js';
 import clientesRoutes from './routes/clienteRoutes.js';
 
+//SWAGGER
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec, { swaggerUiOptions } from './config/swagger.js';
+
+
 dotenv.config()
 
 const app = express(); //Acceder a función de express
@@ -78,3 +83,10 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Servidor funcionando en el puerto: ${port}`);
 })
+
+/////////DOCS SWAGGER/////
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, swaggerUiOptions)
+);
