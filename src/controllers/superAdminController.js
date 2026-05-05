@@ -38,6 +38,7 @@ const crearSucursal = async (req, res) => {
     await emailConfirmarCuenta({
       email: sucursalGuardada.email,
       token: sucursalGuardada.token,
+      mode: 'crear',
       tipoUsuario: "sucursal",
     });
 
