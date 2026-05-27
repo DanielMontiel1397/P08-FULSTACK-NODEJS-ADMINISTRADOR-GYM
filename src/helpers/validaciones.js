@@ -53,3 +53,23 @@ export const validarPaginacion = [
                                     .isInt({ min: 1, max: 100 }).withMessage('El límite debe estar entre 1 y 100')
                                 ];
                                 
+//VALIDACIONES PARA EDICIÓN DE PERFIL SUCURSAL
+export const validarEditarPerfilSucursal = [
+    body("name")
+        .optional()
+        .trim()
+        .isLength({ min: 2, max: 100 }).withMessage("El nombre debe tener entre 2 y 100 caracteres"),
+    body("email")
+        .optional()
+        .trim()
+        .isEmail().withMessage("Email inválido"),
+    body("address")
+        .optional()
+        .trim()
+        .isLength({ min: 5, max: 255 }).withMessage("La dirección debe tener entre 5 y 255 caracteres")
+        .isString().withMessage("La dirección debe ser texto válido"),
+    body("phone")
+        .optional()
+        .matches(/^[0-9+\-\s]+$/).withMessage("El teléfono solo puede contener números, espacios, y símbolos + -")
+        .isLength({ max: 20 }).withMessage("El teléfono no puede exceder 20 caracteres")
+];

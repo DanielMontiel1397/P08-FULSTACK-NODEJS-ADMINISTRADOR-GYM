@@ -1,7 +1,7 @@
 import express from 'express';
 import { sucursalAutenticado } from '../middleware/protegerRutaSucursal.js';
-import { actualizarPerfil, dashboard, perfil } from '../controllers/sucursalController.js';
-import { validarAddress, validarEmail, validarName, validarPhone } from '../helpers/validaciones.js';
+import { actualizarPerfil, dashboard, perfil, verificarSucursal } from '../controllers/sucursalController.js';
+import { validarAddress, validarEditarPerfilSucursal, validarEmail, validarName, validarPhone } from '../helpers/validaciones.js';
 import { handleInputErrors } from '../middleware/validarBody.js';
 
 const router = express.Router();
@@ -14,10 +14,7 @@ router.get('/perfil',
 
 router.patch('/perfil',
     sucursalAutenticado,
-    validarName,
-    validarAddress,
-    validarPhone,
-    validarEmail,
+    validarEditarPerfilSucursal,
     handleInputErrors,
     actualizarPerfil
 )
@@ -27,5 +24,9 @@ router.get('/inicio',
     dashboard
 )
 
-
+//RUTA SUCURSAL VERIFICAR AUTENTICACION
+router.get('/verificar',
+    sucursalAutenticado,
+    verificarSucursal
+)
 export default router;

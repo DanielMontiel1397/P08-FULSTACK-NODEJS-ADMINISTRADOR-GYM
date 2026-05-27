@@ -37,11 +37,12 @@ const actualizarPerfil = async (req, res) => {
 
     const { name, email, address, phone } = req.body;
     const { id: idSucursal } = req.sucursal;
-    let mensajeRespuesta;
+    let mensajeRespuesta = 'Datos Actualizados Correctamente';
+    
     try {
 
         //Verificamos si la sucursal existe
-        const sucursal = await Sucursal.findByPk(idSucursal);
+        const sucursal = await Sucursal.scope("eliminarInfo").findByPk(idSucursal);
 
         if (!sucursal) {
             const error = new Error('La sucursal no existe');
@@ -51,8 +52,27 @@ const actualizarPerfil = async (req, res) => {
 
         };
 
+        //CAMPOS ENVIADOS A EDITAR
+        const camposActualizar = {};
+        if(name !== undefined) camposActualizar.name = name;
+        if(address !== undefined) camposActualizar.address = address;
+        if(phone !== undefined) camposActualizar.phone = phone;
+
+        console.log(camposActualizar);
+
         //Verificamos si se modifico el email
-        if (email !== sucursal.email) {
+        const emailNuevo = email && email !== sucursal.email;
+
+        //RESPONDEMOS SIN NINGÚN CAMPO ES NUEVO
+        if(Object.keys(camposActualizar).length === 0 && !emailNuevo){
+            const error = new Error("No se enviaron campos para actualizar");
+            return res.status(400).json({
+                msg: error.message
+            })
+        }
+
+        //PROCESAMOS EL CAMBIO DE EMAIL
+        if (emailNuevo) {
 
             //Buscamos si el email nuevo ya existe
             const existeEmail = await Sucursal.findOne({
@@ -82,13 +102,13 @@ const actualizarPerfil = async (req, res) => {
 
             mensajeRespuesta = 'Verifica el correo electronico para confirmar email'
 
-        } else {
-            mensajeRespuesta = 'Datos actualizados correctamente'
+        } 
+
+        //Actualizamos campos normales si hay
+        if(Object.keys(camposActualizar).length > 0){
+            await sucursal.update(camposActualizar);
+            await sucursal.reload();
         }
-
-        await sucursal.update({ name, address, phone })
-
-        await sucursal.reload();
 
         return res.json({
             data: {
@@ -153,8 +173,19 @@ const dashboard = async (req, res) => {
     }
 }
 
+/////VERIFICAR TOKEN SUCURSAL PARA AUTENTICACION
+const verificarSucursal = async (req, res) => {
+    return res.status(200).json({
+        valid: true,
+        data: {
+            usuario: req.sucursal
+        }
+    });
+}
+
 export {
     perfil,
     actualizarPerfil,
-    dashboard
+    dashboard,
+    verificarSucursal
 }
