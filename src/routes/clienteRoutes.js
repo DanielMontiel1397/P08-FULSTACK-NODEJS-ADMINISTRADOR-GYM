@@ -16,7 +16,7 @@ router.post('/crear-cliente',
     crearCliente
 );
 
-router.get('/clientes', 
+router.get('/', 
     sucursalAutenticado, 
     validarPaginacion,
     handleInputErrors,

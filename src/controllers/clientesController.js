@@ -71,13 +71,14 @@ const obtenerClientesPorSucursal = async (req, res) => {
         return res.json({
             data: {
                 sucursal: sucursal,
-                clientesTotales: clientes.count,
+                
                 clientes: clientes.rows
             },
             paginacion: {
                 limite: limit,
                 pagina: page,
-                totalPaginas: Math.ceil(clientes.count / limit)
+                totalPaginas: Math.ceil(clientes.count / limit),
+                totalClientes: clientes.count,
             },
             msg: 'Clientes obtenidos correctamente'
         })
