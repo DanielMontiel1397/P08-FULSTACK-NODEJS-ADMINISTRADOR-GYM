@@ -1,6 +1,6 @@
 import express from 'express';
 import { sucursalAutenticado } from '../middleware/protegerRutaSucursal.js';
-import { validarAge, validarIdParam, validarMembershipType, validarName, validarPaginacion, validarPhone } from '../helpers/validaciones.js';
+import { validarAge, validarEditarCliente, validarIdParam, validarMembershipType, validarName, validarPaginacion, validarPhone } from '../helpers/validaciones.js';
 import { handleInputErrors } from '../middleware/validarBody.js';
 import { actualizarCliente, crearCliente, eliminarCliente, obtenerCliente, obtenerClientesPorSucursal, renovarMembresia } from '../controllers/clientesController.js';
 
@@ -30,13 +30,9 @@ router.get('/clientes/:id',
     obtenerCliente
 );
 
-router.patch('/clientes/:id',
+router.patch('/:id',
     sucursalAutenticado,
-    validarIdParam,
-    validarName,
-    validarAge,
-    validarPhone,
-    validarMembershipType,
+    validarEditarCliente,
     handleInputErrors,
     actualizarCliente
 )

@@ -73,3 +73,25 @@ export const validarEditarPerfilSucursal = [
         .matches(/^[0-9+\-\s]+$/).withMessage("El teléfono solo puede contener números, espacios, y símbolos + -")
         .isLength({ max: 20 }).withMessage("El teléfono no puede exceder 20 caracteres")
 ];
+
+
+//VALIDACIONES PARA EDICION DE CLIENTES
+export const validarEditarCliente = [
+    body("name")
+        .optional()
+        .trim()
+        .isLength({ min: 2, max: 100 }).withMessage("El nombre debe tener entre 2 y 100 caracteres"),
+
+    body("age")
+        .optional()
+        .isInt({ min: 1, max: 120 }).withMessage("La edad debe ser un número entero entre 1 y 120"),
+
+    body("phone")
+        .optional()
+        .matches(/^[0-9+\-\s]+$/).withMessage("El teléfono solo puede contener números, espacios, y símbolos + -")
+        .isLength({ max: 20 }).withMessage("El teléfono no puede exceder 20 caracteres"),
+
+    body("membership_type")
+        .optional()
+        .isIn(["semana", "mes", "anualidad"]).withMessage("El tipo de membresía no es válido")
+];
