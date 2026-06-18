@@ -64,7 +64,7 @@ app.use(express.json());
 
 /////////MANEJAR RUTAS///////////
 
-    //Ruta par Autentificar
+//Ruta par Autentificar
 app.use('/api/auth', autentificacionRoutes);
 
     //Ruta para Super Administrador

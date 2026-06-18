@@ -23,7 +23,7 @@ router.get('/',
     obtenerClientesPorSucursal
 );
 
-router.get('/clientes/:id', 
+router.get('/:id', 
     sucursalAutenticado,
     validarIdParam,
     handleInputErrors,
@@ -37,7 +37,7 @@ router.patch('/:id',
     actualizarCliente
 )
 
-router.patch('/clientes/:id/membresia', 
+router.patch('/:id/membresia', 
     sucursalAutenticado,
     validarIdParam,
     validarMembershipType,
@@ -45,7 +45,7 @@ router.patch('/clientes/:id/membresia',
     renovarMembresia
 )
 
-router.delete('/clientes/:id',
+router.delete('/:id',
     sucursalAutenticado,
     validarIdParam,
     handleInputErrors,
