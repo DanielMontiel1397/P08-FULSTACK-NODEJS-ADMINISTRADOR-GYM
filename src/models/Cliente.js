@@ -54,8 +54,9 @@ const Cliente = db.define('clientes', {
         //Calcular fecha cuando se actualice un cliente
         beforeUpdate:  function(cliente) {
             
-            if (cliente.changed('membership_type')){
+            if (cliente.changed('memberhip_start') || cliente.changed('membership_type')){
                 cliente.membership_end = calcularFecha(cliente.membership_start, cliente.membership_type);
+                cliente.is_activated = true;
             }
         }
     },

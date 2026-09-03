@@ -14,6 +14,7 @@ import clientesRoutes from './routes/clienteRoutes.js';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec, { swaggerUiOptions } from './config/swagger.js';
 
+import "./jobs/membresias.job.js"
 
 dotenv.config()
 

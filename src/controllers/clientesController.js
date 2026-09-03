@@ -229,6 +229,7 @@ const renovarMembresia = async (req, res) => {
   const { id: idCliente } = req.params;
   const { id: idSucursal } = req.sucursal;
 
+
   try {
     const cliente = await Cliente.scope("eliminarInfo").findOne({
       where: {
@@ -245,7 +246,7 @@ const renovarMembresia = async (req, res) => {
     }
 
     //verificar que sigue activo
-    if (!cliente.is_activated) {
+    if (cliente.is_activated) {
       const error = new Error("Aún no termina la membresia del cliente");
       return res.status(409).json({
         msg: error.message,
